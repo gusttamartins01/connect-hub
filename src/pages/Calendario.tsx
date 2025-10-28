@@ -1,7 +1,8 @@
-import { FileText, Download, Eye } from "lucide-react";
+import { FileText, Download, Eye, Calendar as CalendarIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import calendarioImage from "@/assets/calendario-2025.png";
 
 export default function Calendario() {
   const { toast } = useToast();
@@ -34,34 +35,44 @@ export default function Calendario() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="border-border bg-card hover:shadow-lg transition-shadow col-span-full md:col-span-2 lg:col-span-3">
+        <div className="grid gap-6 mb-8">
+          <Card className="border-border bg-card hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="flex items-center gap-4">
                 <div className="h-16 w-16 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <FileText className="h-8 w-8 text-primary-foreground" />
+                  <CalendarIcon className="h-8 w-8 text-primary-foreground" />
                 </div>
                 <div className="flex-1">
-                  <CardTitle className="text-2xl">Calendário Acadêmico 2025</CardTitle>
+                  <CardTitle className="text-2xl">Calendário Acadêmico 2025.2</CardTitle>
                   <CardDescription className="mt-1">
-                    Documento completo com todas as datas importantes do ano letivo
+                    Confira todas as datas importantes do segundo semestre de 2025
                   </CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
+              <div className="rounded-lg overflow-hidden border border-border">
+                <img 
+                  src={calendarioImage} 
+                  alt="Calendário Acadêmico 2025.2" 
+                  className="w-full h-auto"
+                />
+              </div>
               <div className="flex flex-wrap gap-4">
                 <Button onClick={handleViewCalendar} className="gap-2">
                   <Eye className="h-4 w-4" />
-                  Visualizar Calendário
+                  Visualizar em Tela Cheia
                 </Button>
                 <Button onClick={handleDownloadCalendar} variant="secondary" className="gap-2">
                   <Download className="h-4 w-4" />
-                  Baixar PDF
+                  Baixar Calendário
                 </Button>
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
           <Card className="border-border bg-card">
             <CardHeader>

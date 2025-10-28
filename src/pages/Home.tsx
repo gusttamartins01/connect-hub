@@ -122,65 +122,82 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* Disciplinas e Atividades */}
+        {/* Disciplinas do 2º Semestre */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold">Suas Disciplinas</h2>
+          <h2 className="text-2xl font-bold">Disciplinas do 2º Semestre</h2>
           
-          {disciplinas.map((disciplina) => {
-            const atividadesDisciplina = atividades.filter(
-              (a) => a.disciplinaId === disciplina.id
-            );
+          <div className="grid gap-6 md:grid-cols-2">
+            {disciplinas.map((disciplina) => {
+              const atividadesDisciplina = atividades.filter(
+                (a) => a.disciplinaId === disciplina.id
+              );
 
-            return (
-              <Card key={disciplina.id} className="border-border bg-card">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <CardTitle className="text-xl">{disciplina.nome}</CardTitle>
-                      <CardDescription className="mt-1">
-                        {disciplina.codigo} • {disciplina.professor.nome}
-                      </CardDescription>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {disciplina.horario} • {disciplina.sala}
-                      </p>
+              return (
+                <Card key={disciplina.id} className="border-border bg-card hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                        <BookOpen className="h-6 w-6 text-primary-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <CardTitle className="text-lg">{disciplina.nome}</CardTitle>
+                        <CardDescription className="mt-1">
+                          {disciplina.codigo}
+                        </CardDescription>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                
-                {atividadesDisciplina.length > 0 && (
-                  <CardContent>
-                    <h4 className="text-sm font-semibold mb-3">Atividades</h4>
-                    <div className="space-y-3">
-                      {atividadesDisciplina.map((atividade) => (
-                        <div
-                          key={atividade.id}
-                          className="flex items-start justify-between p-3 rounded-lg bg-muted/50 border border-border"
-                        >
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Badge className={getTipoColor(atividade.tipo)}>
-                                {atividade.tipo.toUpperCase()}
-                              </Badge>
-                              <Badge className={getStatusColor(atividade.status)}>
-                                {atividade.status}
-                              </Badge>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="text-muted-foreground">Professor:</span>
+                        <span className="font-medium">{disciplina.professor.nome}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <Clock className="h-4 w-4 text-primary" />
+                        <span className="text-muted-foreground">{disciplina.horario}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="text-muted-foreground">Sala:</span>
+                        <span className="font-medium">{disciplina.sala}</span>
+                      </div>
+                    </div>
+
+                    {atividadesDisciplina.length > 0 && (
+                      <div className="pt-4 border-t border-border">
+                        <h4 className="text-sm font-semibold mb-3">Atividades</h4>
+                        <div className="space-y-3">
+                          {atividadesDisciplina.map((atividade) => (
+                            <div
+                              key={atividade.id}
+                              className="p-3 rounded-lg bg-muted/50 border border-border"
+                            >
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge className={getTipoColor(atividade.tipo)}>
+                                  {atividade.tipo.toUpperCase()}
+                                </Badge>
+                                <Badge className={getStatusColor(atividade.status)}>
+                                  {atividade.status}
+                                </Badge>
+                              </div>
+                              <p className="font-medium text-sm">{atividade.titulo}</p>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                {atividade.descricao}
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-2">
+                                Entrega: {new Date(atividade.dataEntrega).toLocaleDateString("pt-BR")}
+                              </p>
                             </div>
-                            <p className="font-medium">{atividade.titulo}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {atividade.descricao}
-                            </p>
-                            <p className="text-sm text-muted-foreground mt-1">
-                              Entrega: {new Date(atividade.dataEntrega).toLocaleDateString("pt-BR")}
-                            </p>
-                          </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    )}
                   </CardContent>
-                )}
-              </Card>
-            );
-          })}
+                </Card>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
