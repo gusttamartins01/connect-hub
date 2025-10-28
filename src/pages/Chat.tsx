@@ -21,7 +21,7 @@ const mockMessages: Record<string, Message[]> = {
   "1": [
     {
       id: "1",
-      sender: "Prof. Dr. Carlos Silva",
+      sender: "Prof. Dr. Ricardo Amorim",
       senderAvatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
       content: "Pessoal, não esqueçam da lista de exercícios para segunda-feira!",
       timestamp: "10:30",
@@ -39,7 +39,7 @@ const mockMessages: Record<string, Message[]> = {
   "2": [
     {
       id: "1",
-      sender: "Profa. Dra. Ana Santos",
+      sender: "Prof. Reivel Vieira",
       senderAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
       content: "Boa tarde! Lembrete: prazo para o projeto de modelagem é amanhã.",
       timestamp: "14:20",
@@ -49,7 +49,7 @@ const mockMessages: Record<string, Message[]> = {
   "3": [
     {
       id: "1",
-      sender: "Prof. Me. Roberto Lima",
+      sender: "Prof. Reivel Vieira",
       senderAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
       content: "Material complementar disponível no portal.",
       timestamp: "09:15",
@@ -59,7 +59,7 @@ const mockMessages: Record<string, Message[]> = {
   "4": [
     {
       id: "1",
-      sender: "Profa. Dra. Maria Costa",
+      sender: "Prof. Julião eduardo Maximos",
       senderAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
       content: "Pessoal, aula prática no laboratório amanhã!",
       timestamp: "16:45",
@@ -67,14 +67,7 @@ const mockMessages: Record<string, Message[]> = {
     },
   ],
   "5": [
-    {
-      id: "1",
-      sender: "Prof. Dr. João Oliveira",
-      senderAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-      content: "Slides da última aula já estão disponíveis.",
-      timestamp: "11:20",
-      isMe: false,
-    },
+    
   ],
 };
 
