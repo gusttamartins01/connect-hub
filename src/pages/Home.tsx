@@ -71,7 +71,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Bem-vindo ao Portal Acadêmico
+            Bem-vindo ao Connect Hub
           </h1>
           <p className="text-muted-foreground">
             Gerencie suas disciplinas, atividades e acompanhe seu progresso acadêmico
