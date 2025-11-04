@@ -81,7 +81,7 @@ export const disciplinas: Disciplina[] = [
     nome: "Sistemas Operacionais",
     codigo: "U0548",
     professor: professores[2],
-    horario: "Segunda e Quarta, 21h-23h",
+    horario: "Quinta, 19hh-23h",
     sala: "Lab 02, Bloco B",
   },
   {
@@ -89,7 +89,7 @@ export const disciplinas: Disciplina[] = [
     nome: "Interface Homem Máquina",
     codigo: "U0295",
     professor: professores[3],
-    horario: "Terça e Quinta, 21h-21:45h",
+    horario: "Sexta, 19h-21:45h",
     sala: "Sala 215, Bloco A",
   },
 ];
