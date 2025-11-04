@@ -109,7 +109,8 @@ export const Navbar = () => {
                   className={cn(
                     location.pathname.includes("/calendario") ||
                     location.pathname.includes("/grade-curricular") ||
-                    location.pathname.includes("/chat")
+                    location.pathname.includes("/chat") ||
+                    location.pathname.includes("/comunidade")
                       ? "bg-primary/10"
                       : "",
                     "flex items-center gap-2"
@@ -154,6 +155,19 @@ export const Navbar = () => {
                             <div className="text-sm font-medium">Chat IA</div>
                             <p className="text-xs text-muted-foreground mt-1">
                               Tire dúvidas com IA
+                            </p>
+                          </div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/comunidade">
+                        <NavigationMenuLink className="flex items-center gap-3 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <Users className="h-4 w-4 text-primary" />
+                          <div>
+                            <div className="text-sm font-medium">Comunidade</div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Discord dos alunos ADS
                             </p>
                           </div>
                         </NavigationMenuLink>

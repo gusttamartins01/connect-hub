@@ -13,6 +13,7 @@ import Disciplinas from "./pages/Disciplinas";
 import Professores from "./pages/Professores";
 import Chat from "./pages/Chat";
 import GradeCurricular from "./pages/GradeCurricular";
+import Comunidade from "./pages/Comunidade";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
                     <Route path="/professores" element={<Professores />} />
                     <Route path="/chat" element={<Chat />} />
                     <Route path="/grade-curricular" element={<GradeCurricular />} />
+                    <Route path="/comunidade" element={<Comunidade />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                   <Footer />

@@ -16,11 +16,17 @@ export default function Calendario() {
   };
 
   const handleDownloadCalendar = () => {
+    const link = document.createElement('a');
+    link.href = calendarioImage;
+    link.download = 'Calendario-Academico-2025.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
     toast({
-      title: "Download iniciado",
-      description: "O calendário acadêmico está sendo baixado...",
+      title: "Download concluído",
+      description: "O calendário acadêmico foi baixado com sucesso!",
     });
-    // Implementar download do PDF
   };
 
   return (
