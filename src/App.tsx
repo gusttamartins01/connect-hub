@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Calendario from "./pages/Calendario";
 import Disciplinas from "./pages/Disciplinas";
@@ -21,17 +23,29 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/calendario" element={<Calendario />} />
-          <Route path="/disciplinas" element={<Disciplinas />} />
-          <Route path="/professores" element={<Professores />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/grade-curricular" element={<GradeCurricular />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                <>
+                  <Navbar />
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/calendario" element={<Calendario />} />
+                    <Route path="/disciplinas" element={<Disciplinas />} />
+                    <Route path="/professores" element={<Professores />} />
+                    <Route path="/chat" element={<Chat />} />
+                    <Route path="/grade-curricular" element={<GradeCurricular />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                  <Footer />
+                </>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-        <Footer />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

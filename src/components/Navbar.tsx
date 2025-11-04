@@ -1,7 +1,4 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,65 +6,97 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { 
+  GraduationCap, 
+  LogOut, 
+  Home, 
+  Calendar, 
+  BookOpen, 
+  Users, 
+  MessageSquare, 
+  FileText 
+} from "lucide-react";
 
-export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+export const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const isActive = (path: string) => location.pathname === path;
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userMatricula");
+    navigate("/login");
+  };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent" />
-            <span className="text-xl font-bold">UniConnect</span>
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center space-x-2 group">
+            <GraduationCap className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
+            <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Sistema Acadêmico
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
                 <Link to="/">
                   <NavigationMenuLink
-                    className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
-                      isActive("/") ? "bg-accent text-accent-foreground" : ""
-                    }`}
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      location.pathname === "/" && "bg-primary/10",
+                      "flex items-center gap-2"
+                    )}
                   >
-                    Home
+                    <Home className="h-4 w-4" />
+                    Início
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/calendario">
-                  <NavigationMenuLink
-                    className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
-                      isActive("/calendario") ? "bg-accent text-accent-foreground" : ""
-                    }`}
-                  >
-                    Calendário
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Disciplinas</NavigationMenuTrigger>
+                <NavigationMenuTrigger
+                  className={cn(
+                    location.pathname.includes("/disciplinas") ||
+                    location.pathname.includes("/professores")
+                      ? "bg-primary/10"
+                      : "",
+                    "flex items-center gap-2"
+                  )}
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Acadêmico
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[200px] gap-2 p-4">
+                  <ul className="grid w-[220px] gap-2 p-2">
                     <li>
                       <Link to="/disciplinas">
-                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium">Todas as Disciplinas</div>
+                        <NavigationMenuLink className="flex items-center gap-3 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <BookOpen className="h-4 w-4 text-primary" />
+                          <div>
+                            <div className="text-sm font-medium">Disciplinas</div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Horários e informações
+                            </p>
+                          </div>
                         </NavigationMenuLink>
                       </Link>
                     </li>
                     <li>
                       <Link to="/professores">
-                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium">Professores</div>
+                        <NavigationMenuLink className="flex items-center gap-3 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <Users className="h-4 w-4 text-primary" />
+                          <div>
+                            <div className="text-sm font-medium">Professores</div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Contatos e perfis
+                            </p>
+                          </div>
                         </NavigationMenuLink>
                       </Link>
                     </li>
@@ -76,102 +105,77 @@ export function Navbar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/chat">
-                  <NavigationMenuLink
-                    className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
-                      isActive("/chat") ? "bg-accent text-accent-foreground" : ""
-                    }`}
-                  >
-                    Chat
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <Link to="/grade-curricular">
-                  <NavigationMenuLink
-                    className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
-                      isActive("/grade-curricular") ? "bg-accent text-accent-foreground" : ""
-                    }`}
-                  >
-                    Grade Curricular
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuTrigger
+                  className={cn(
+                    location.pathname.includes("/calendario") ||
+                    location.pathname.includes("/grade-curricular") ||
+                    location.pathname.includes("/chat")
+                      ? "bg-primary/10"
+                      : "",
+                    "flex items-center gap-2"
+                  )}
+                >
+                  <FileText className="h-4 w-4" />
+                  Recursos
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[220px] gap-2 p-2">
+                    <li>
+                      <Link to="/calendario">
+                        <NavigationMenuLink className="flex items-center gap-3 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <Calendar className="h-4 w-4 text-primary" />
+                          <div>
+                            <div className="text-sm font-medium">Calendário</div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Calendário acadêmico 2025
+                            </p>
+                          </div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/grade-curricular">
+                        <NavigationMenuLink className="flex items-center gap-3 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <FileText className="h-4 w-4 text-primary" />
+                          <div>
+                            <div className="text-sm font-medium">Grade Curricular</div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Curso completo
+                            </p>
+                          </div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/chat">
+                        <NavigationMenuLink className="flex items-center gap-3 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <MessageSquare className="h-4 w-4 text-primary" />
+                          <div>
+                            <div className="text-sm font-medium">Chat IA</div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Tire dúvidas com IA
+                            </p>
+                          </div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
-          {/* Mobile menu button */}
           <Button
             variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+            size="sm"
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <LogOut className="h-4 w-4" />
+            Sair
           </Button>
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 space-y-2">
-            <Link
-              to="/"
-              className={`block px-4 py-2 rounded-md transition-colors hover:bg-accent ${
-                isActive("/") ? "bg-accent" : ""
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/calendario"
-              className={`block px-4 py-2 rounded-md transition-colors hover:bg-accent ${
-                isActive("/calendario") ? "bg-accent" : ""
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Calendário
-            </Link>
-            <Link
-              to="/disciplinas"
-              className={`block px-4 py-2 rounded-md transition-colors hover:bg-accent ${
-                isActive("/disciplinas") ? "bg-accent" : ""
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Disciplinas
-            </Link>
-            <Link
-              to="/professores"
-              className={`block px-4 py-2 rounded-md transition-colors hover:bg-accent ${
-                isActive("/professores") ? "bg-accent" : ""
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Professores
-            </Link>
-            <Link
-              to="/chat"
-              className={`block px-4 py-2 rounded-md transition-colors hover:bg-accent ${
-                isActive("/chat") ? "bg-accent" : ""
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Chat
-            </Link>
-            <Link
-              to="/grade-curricular"
-              className={`block px-4 py-2 rounded-md transition-colors hover:bg-accent ${
-                isActive("/grade-curricular") ? "bg-accent" : ""
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Grade Curricular
-            </Link>
-          </div>
-        )}
       </div>
     </nav>
   );
-}
+};

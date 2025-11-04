@@ -1,119 +1,158 @@
-import { useState } from "react";
-import { Send } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Send, Bot, User as UserIcon, Sparkles } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { disciplinas } from "@/data/mockData";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: string;
-  sender: string;
-  senderAvatar: string;
+  role: "user" | "assistant";
   content: string;
   timestamp: string;
-  isMe: boolean;
 }
 
-const mockMessages: Record<string, Message[]> = {
-  "1": [
-    {
-      id: "1",
-      sender: "Prof. Dr. Ricardo Amorim",
-      senderAvatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-      content: "Pessoal, não esqueçam da lista de exercícios para segunda-feira!",
-      timestamp: "10:30",
-      isMe: false,
-    },
-    {
-      id: "2",
-      sender: "Você",
-      senderAvatar: "",
-      content: "Professor, poderia esclarecer a questão 5?",
-      timestamp: "10:35",
-      isMe: true,
-    },
-  ],
-  "2": [
-    {
-      id: "1",
-      sender: "Prof. Reivel Vieira",
-      senderAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-      content: "Boa tarde! Lembrete: prazo para o projeto de modelagem é amanhã.",
-      timestamp: "14:20",
-      isMe: false,
-    },
-  ],
-  "3": [
-    {
-      id: "1",
-      sender: "Prof. Reivel Vieira",
-      senderAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
-      content: "Material complementar disponível no portal.",
-      timestamp: "09:15",
-      isMe: false,
-    },
-  ],
-  "4": [
-    {
-      id: "1",
-      sender: "Prof. Julião eduardo Maximos",
-      senderAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
-      content: "Pessoal, aula prática no laboratório amanhã!",
-      timestamp: "16:45",
-      isMe: false,
-    },
-  ],
-  "5": [
-    
-  ],
+const disciplineContext: Record<string, string> = {
+  "1": `Você é o Prof. Dr. Ricardo Amorim, especialista em Fundamentos de Análise e Projeto de Sistemas. 
+  Responda dúvidas sobre: modelagem UML, diagramas de classes, casos de uso, análise de requisitos, 
+  metodologias ágeis, padrões de projeto, e boas práticas de desenvolvimento de software.`,
+  
+  "2": `Você é a Profa. Reivel Vieira, especialista em Redes de Computadores.
+  Responda dúvidas sobre: protocolos TCP/IP, arquitetura de redes, topologias, segurança de rede,
+  configuração de switches e roteadores, modelo OSI, endereçamento IP, e redes sem fio.`,
+  
+  "3": `Você é o Prof. Reivel Vieira, especialista em Sistemas Operacionais.
+  Responda dúvidas sobre: gerenciamento de processos, memória, sistemas de arquivos, escalonamento,
+  concorrência, sincronização, deadlock, virtualização, Linux, Windows e conceitos de kernel.`,
+  
+  "4": `Você é o Prof. Julião Eduardo Maximos, especialista em Interface Homem Máquina.
+  Responda dúvidas sobre: design de interfaces, usabilidade, experiência do usuário (UX/UI),
+  acessibilidade, prototipação, testes de usabilidade, design responsivo, e heurísticas de Nielsen.`,
 };
 
-export default function Chat() {
+export default function ChatImproved() {
   const [selectedDisciplina, setSelectedDisciplina] = useState(disciplinas[0].id);
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState(mockMessages);
+  const [messages, setMessages] = useState<Record<string, Message[]>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
-  const handleSendMessage = () => {
-    if (!newMessage.trim()) return;
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || isLoading) return;
 
-    const message: Message = {
+    const userMessage: Message = {
       id: Date.now().toString(),
-      sender: "Você",
-      senderAvatar: "",
+      role: "user",
       content: newMessage,
       timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-      isMe: true,
     };
 
     setMessages((prev) => ({
       ...prev,
-      [selectedDisciplina]: [...(prev[selectedDisciplina] || []), message],
+      [selectedDisciplina]: [...(prev[selectedDisciplina] || []), userMessage],
     }));
 
     setNewMessage("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-professor`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "system",
+              content: disciplineContext[selectedDisciplina],
+            },
+            ...(messages[selectedDisciplina] || []).map((msg) => ({
+              role: msg.role,
+              content: msg.content,
+            })),
+            {
+              role: "user",
+              content: newMessage,
+            },
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao conectar com a IA");
+      }
+
+      const data = await response.json();
+      
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: data.response,
+        timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+      };
+
+      setMessages((prev) => ({
+        ...prev,
+        [selectedDisciplina]: [...(prev[selectedDisciplina] || []), userMessage, assistantMessage],
+      }));
+    } catch (error) {
+      console.error("Erro:", error);
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: "Não foi possível conectar com o professor virtual. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const currentMessages = messages[selectedDisciplina] || [];
+  const currentDisciplina = disciplinas.find((d) => d.id === selectedDisciplina);
+
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }
+  }, [currentMessages]);
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Chat das Disciplinas
-          </h1>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-primary/20">
+              <Sparkles className="h-6 w-6 text-primary" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Chat com IA - Professor Virtual
+            </h1>
+          </div>
           <p className="text-muted-foreground">
-            Tire suas dúvidas e interaja com professores e colegas
+            Tire suas dúvidas com inteligência artificial especializada em cada disciplina
           </p>
         </div>
 
-        <Card className="border-border bg-card">
+        <Card className="border-border bg-card shadow-glow">
           <CardHeader>
-            <CardTitle>Chats por Disciplina</CardTitle>
-            <CardDescription>Selecione uma disciplina para ver o chat</CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <Bot className="h-5 w-5 text-primary" />
+              Assistente por Disciplina
+            </CardTitle>
+            <CardDescription>
+              Selecione uma disciplina e converse com o professor virtual
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs value={selectedDisciplina} onValueChange={setSelectedDisciplina}>
@@ -132,61 +171,131 @@ export default function Chat() {
               {disciplinas.map((disc) => (
                 <TabsContent key={disc.id} value={disc.id} className="mt-4">
                   <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-muted/50 border border-border">
-                      <h3 className="font-semibold text-lg">{disc.nome}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Professor: {disc.professor.nome}
-                      </p>
+                    <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20">
+                      <div className="flex items-start gap-3">
+                        <Bot className="h-5 w-5 text-primary mt-1" />
+                        <div>
+                          <h3 className="font-semibold text-lg">{disc.nome}</h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Professor Virtual: {disc.professor.nome}
+                          </p>
+                          <Badge variant="secondary" className="mt-2">
+                            Powered by IA
+                          </Badge>
+                        </div>
+                      </div>
                     </div>
 
-                    <ScrollArea className="h-[400px] w-full rounded-lg border border-border p-4 bg-card">
+                    <ScrollArea 
+                      ref={scrollAreaRef}
+                      className="h-[450px] w-full rounded-lg border border-border bg-card/50 p-4"
+                    >
                       <div className="space-y-4">
-                        {currentMessages.map((message) => (
-                          <div
-                            key={message.id}
-                            className={`flex gap-3 ${message.isMe ? "flex-row-reverse" : ""}`}
-                          >
-                            <Avatar className="h-10 w-10">
-                              <AvatarImage src={message.senderAvatar} />
-                              <AvatarFallback>
-                                {message.sender
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
+                        {currentMessages.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                            <div className="p-4 rounded-full bg-primary/10 mb-4">
+                              <Bot className="h-12 w-12 text-primary" />
+                            </div>
+                            <h3 className="text-lg font-semibold mb-2">
+                              Olá! Sou seu professor virtual
+                            </h3>
+                            <p className="text-sm text-muted-foreground max-w-md">
+                              Estou aqui para ajudar com suas dúvidas sobre {disc.nome}. 
+                              Pergunte qualquer coisa sobre a disciplina!
+                            </p>
+                          </div>
+                        ) : (
+                          currentMessages.map((message) => (
                             <div
-                              className={`flex-1 max-w-[70%] ${message.isMe ? "items-end" : ""}`}
+                              key={message.id}
+                              className={`flex gap-3 ${
+                                message.role === "user" ? "flex-row-reverse" : ""
+                              }`}
                             >
+                              <Avatar className="h-8 w-8 border-2 border-border">
+                                <AvatarFallback
+                                  className={
+                                    message.role === "assistant"
+                                      ? "bg-primary/20 text-primary"
+                                      : "bg-accent/20 text-accent"
+                                  }
+                                >
+                                  {message.role === "assistant" ? (
+                                    <Bot className="h-4 w-4" />
+                                  ) : (
+                                    <UserIcon className="h-4 w-4" />
+                                  )}
+                                </AvatarFallback>
+                              </Avatar>
                               <div
-                                className={`rounded-lg p-3 ${
-                                  message.isMe
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-muted"
+                                className={`flex-1 max-w-[80%] ${
+                                  message.role === "user" ? "items-end" : ""
                                 }`}
                               >
-                                <p className="text-sm font-medium mb-1">{message.sender}</p>
-                                <p className="text-sm">{message.content}</p>
-                                <p className="text-xs opacity-70 mt-1">{message.timestamp}</p>
+                                <div
+                                  className={`rounded-lg p-4 ${
+                                    message.role === "user"
+                                      ? "bg-primary text-primary-foreground"
+                                      : "bg-muted border border-border"
+                                  }`}
+                                >
+                                  <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                                    {message.content}
+                                  </p>
+                                  <p className="text-xs opacity-70 mt-2">
+                                    {message.timestamp}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                        {isLoading && (
+                          <div className="flex gap-3">
+                            <Avatar className="h-8 w-8 border-2 border-border">
+                              <AvatarFallback className="bg-primary/20 text-primary">
+                                <Bot className="h-4 w-4 animate-pulse" />
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 max-w-[80%]">
+                              <div className="rounded-lg p-4 bg-muted border border-border">
+                                <div className="flex gap-1">
+                                  <div className="w-2 h-2 rounded-full bg-primary animate-bounce" />
+                                  <div className="w-2 h-2 rounded-full bg-primary animate-bounce [animation-delay:0.2s]" />
+                                  <div className="w-2 h-2 rounded-full bg-primary animate-bounce [animation-delay:0.4s]" />
+                                </div>
                               </div>
                             </div>
                           </div>
-                        ))}
+                        )}
                       </div>
                     </ScrollArea>
 
                     <div className="flex gap-2">
-                      <Input
-                        placeholder="Digite sua mensagem..."
+                      <Textarea
+                        placeholder="Digite sua dúvida sobre a disciplina..."
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                        className="flex-1"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMessage();
+                          }
+                        }}
+                        className="min-h-[60px] resize-none"
+                        disabled={isLoading}
                       />
-                      <Button onClick={handleSendMessage} size="icon">
-                        <Send className="h-4 w-4" />
+                      <Button
+                        onClick={handleSendMessage}
+                        disabled={!newMessage.trim() || isLoading}
+                        className="h-[60px] px-6"
+                      >
+                        <Send className="h-5 w-5" />
                       </Button>
                     </div>
+                    <p className="text-xs text-muted-foreground text-center">
+                      Pressione Enter para enviar, Shift+Enter para nova linha
+                    </p>
                   </div>
                 </TabsContent>
               ))}
