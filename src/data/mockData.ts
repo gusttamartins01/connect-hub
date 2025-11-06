@@ -1,3 +1,5 @@
+import { icons } from "lucide-react";
+
 export interface Professor {
   id: string;
   nome: string;
@@ -36,26 +38,26 @@ export const professores: Professor[] = [
   {
     id: "1",
     nome: "Prof. Dr. Ricardo Amorim",
-    email: "carlos.silva@universidade.edu",
-    foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+    email: "ricardo.amorim@universidade.edu",
+    foto: "#",
   },
   {
     id: "2",
     nome: "Prof. Reivel Vieira",
-    email: "ana.santos@universidade.edu",
-    foto: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+    email: "reivel.vieira@universidade.edu",
+    foto: "#",
   },
   {
     id: "3",
     nome: "Prof. Reivel Vieira",
-    email: "roberto.lima@universidade.edu",
-    foto: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+    email: "reivel.vieira@universidade.edu",
+    foto: "#",
   },
   {
     id: "4",
     nome: "Prof. Julião Eduardo Maximos",
-    email: "maria.costa@universidade.edu",
-    foto: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+    email: "eduardo.maximos@universidade.edu",
+    foto:"#",
   },
 ];
 
