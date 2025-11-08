@@ -232,20 +232,25 @@ export default function ChatImproved() {
                                   message.role === "user" ? "items-end" : ""
                                 }`}
                               >
-                                <div
-                                  className={`rounded-lg p-4 ${
-                                    message.role === "user"
-                                      ? "bg-primary text-primary-foreground"
-                                      : "bg-muted border border-border"
-                                  }`}
-                                >
-                                  <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                                    {message.content}
-                                  </p>
-                                  <p className="text-xs opacity-70 mt-2">
-                                    {message.timestamp}
-                                  </p>
-                                </div>
+                                 <div
+                                   className={`rounded-lg p-4 ${
+                                     message.role === "user"
+                                       ? "bg-primary text-primary-foreground"
+                                       : "bg-muted border border-border"
+                                   }`}
+                                 >
+                                   <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                                     {message.content
+                                       .replace(/\*\*/g, '')
+                                       .replace(/\*/g, '')
+                                       .replace(/##/g, '')
+                                       .replace(/#/g, '')
+                                       .trim()}
+                                   </p>
+                                   <p className="text-xs opacity-70 mt-2">
+                                     {message.timestamp}
+                                   </p>
+                                 </div>
                               </div>
                             </div>
                           ))

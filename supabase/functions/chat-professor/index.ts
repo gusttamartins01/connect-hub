@@ -26,7 +26,14 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
-        messages: messages,
+        messages: [
+          ...messages.slice(0, 1), // system message
+          {
+            role: "system",
+            content: "IMPORTANTE: Responda SEMPRE em português brasileiro claro e natural, SEM usar markdown, asteriscos, ou formatação especial. Escreva como se estivesse conversando normalmente, usando apenas texto simples e bem estruturado com parágrafos. Use pontuação adequada e espaçamento para organizar suas respostas."
+          },
+          ...messages.slice(1) // resto das mensagens
+        ],
         max_completion_tokens: 1000,
       }),
     });

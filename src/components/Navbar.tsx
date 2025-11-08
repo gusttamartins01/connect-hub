@@ -28,6 +28,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ThemeToggle } from "./ThemeToggle";
+import { LibrasToggle } from "./LibrasToggle";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -212,20 +214,26 @@ export const Navbar = () => {
               </NavigationMenuList>
             </NavigationMenu>
 
-            {/* BOTÃO SAIR DESKTOP */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
-            >
-              <LogOut className="h-4 w-4" />
-              Sair
-            </Button>
+            {/* BOTÕES DE AÇÃO DESKTOP */}
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <LibrasToggle />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="h-4 w-4" />
+                Sair
+              </Button>
+            </div>
           </div>
 
           {/* MENU MOBILE */}
           <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle />
+            <LibrasToggle />
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
