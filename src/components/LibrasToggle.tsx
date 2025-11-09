@@ -6,19 +6,35 @@ export function LibrasToggle() {
   const { toast } = useToast();
 
   const handleActivate = () => {
-    const VLib = window.VLibras;
-
-    if (VLib?.Widget) {
-      new VLib.Widget("https://vlibras.gov.br/app");
-
+    // Ativa programaticamente o VLibras simulando evento de clique
+    const vlibrasDiv = document.querySelector('[vw]');
+    const accessButton = document.querySelector('[vw-access-button]') as HTMLElement;
+    
+    if (vlibrasDiv && accessButton) {
+      // Simula o clique no botão de acesso
+      const clickEvent = new MouseEvent('click', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+      accessButton.dispatchEvent(clickEvent);
+      
+      // Força a exibição do widget
+      setTimeout(() => {
+        const pluginWrapper = document.querySelector('[vw-plugin-wrapper]') as HTMLElement;
+        if (pluginWrapper) {
+          pluginWrapper.style.display = 'block';
+        }
+      }, 100);
+      
       toast({
         title: "VLibras ativado",
-        description: "O avatar de Libras foi iniciado com sucesso.",
+        description: "O tradutor de Libras foi iniciado. Use o avatar no canto da tela.",
       });
     } else {
       toast({
-        title: "VLibras não carregado",
-        description: "O script ainda não foi carregado. Aguarde alguns segundos.",
+        title: "VLibras não está disponível",
+        description: "Aguarde alguns segundos e tente novamente.",
         variant: "destructive",
       });
     }

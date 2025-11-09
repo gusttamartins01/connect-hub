@@ -86,21 +86,21 @@ All colors MUST be HSL.
   }
 }
 
-/* ⬅️ NOVO CÓDIGO A SER ADICIONADO ABAIXO ⬅️ */
-
-/* Esconde o botão flutuante padrão que o script VLibras injeta */
-div[vw-access-button] {
-  display: none !important;
-}
-
-/* ✅ Garante que o VLibras apareça acima de tudo */
-[vw],
-[vw] * {
+/* ✅ VLibras - Garante que apareça acima de tudo */
+[vw] {
   z-index: 2147483647 !important;
-  position: fixed !important;
 }
 
-/* ✅ Oculta o botão padrão do VLibras (se quiser reativar, remova isso) */
-div[vw-access-button] {
-  display: none !important;
+/* ✅ Torna o botão padrão invisível mas mantém funcional */
+[vw-access-button] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  right: 0 !important;
+}
+
+/* ✅ Garante que o widget do VLibras seja visível quando ativado */
+[vw-plugin-wrapper] {
+  z-index: 2147483647 !important;
 }
