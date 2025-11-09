@@ -6,35 +6,41 @@ export function LibrasToggle() {
   const { toast } = useToast();
 
   const handleActivate = () => {
-    // Ativa programaticamente o VLibras simulando evento de clique
-    const vlibrasDiv = document.querySelector('[vw]');
     const accessButton = document.querySelector('[vw-access-button]') as HTMLElement;
     
-    if (vlibrasDiv && accessButton) {
-      // Simula o clique no botão de acesso
-      const clickEvent = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      });
-      accessButton.dispatchEvent(clickEvent);
+    if (accessButton) {
+      // Força a exibição do botão do VLibras
+      accessButton.style.display = 'block';
+      accessButton.style.visibility = 'visible';
+      accessButton.style.opacity = '1';
       
-      // Força a exibição do widget
+      // Clica no botão para ativar o widget
+      accessButton.click();
+      
+      // Garante que o plugin wrapper esteja visível
       setTimeout(() => {
         const pluginWrapper = document.querySelector('[vw-plugin-wrapper]') as HTMLElement;
         if (pluginWrapper) {
           pluginWrapper.style.display = 'block';
+          pluginWrapper.style.visibility = 'visible';
         }
-      }, 100);
+        
+        const accessButtonAgain = document.querySelector('[vw-access-button]') as HTMLElement;
+        if (accessButtonAgain) {
+          accessButtonAgain.style.display = 'block';
+          accessButtonAgain.style.visibility = 'visible';
+          accessButtonAgain.style.opacity = '1';
+        }
+      }, 500);
       
       toast({
         title: "VLibras ativado",
-        description: "O tradutor de Libras foi iniciado. Use o avatar no canto da tela.",
+        description: "O avatar de Libras deve aparecer no canto inferior direito da tela.",
       });
     } else {
       toast({
         title: "VLibras não está disponível",
-        description: "Aguarde alguns segundos e tente novamente.",
+        description: "Aguarde alguns segundos e recarregue a página.",
         variant: "destructive",
       });
     }

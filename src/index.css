@@ -86,21 +86,26 @@ All colors MUST be HSL.
   }
 }
 
-/* ✅ VLibras - Garante que apareça acima de tudo */
+/* ✅ VLibras - Configuração correta para exibir o avatar */
 [vw] {
   z-index: 2147483647 !important;
 }
 
-/* ✅ Torna o botão padrão invisível mas mantém funcional */
+/* ✅ Mantém o botão do VLibras visível e funcional */
 [vw-access-button] {
-  opacity: 0 !important;
-  pointer-events: none !important;
+  z-index: 2147483647 !important;
   position: fixed !important;
-  bottom: 0 !important;
-  right: 0 !important;
+  bottom: 16px !important;
+  right: 16px !important;
 }
 
-/* ✅ Garante que o widget do VLibras seja visível quando ativado */
+/* ✅ Garante que o widget do VLibras seja totalmente visível */
 [vw-plugin-wrapper] {
   z-index: 2147483647 !important;
+  display: block !important;
+}
+
+[vw-plugin-wrapper] * {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
