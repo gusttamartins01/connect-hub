@@ -10,24 +10,25 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- ✅ VLibras Widget Script -->
+    <!-- ✅ VLibras Widget Script (apenas uma vez) -->
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   </head>
 
   <body>
+    <!-- ✅ React root -->
     <div id="root"></div>
 
-    <!-- ✅ VLibras Container (deve vir antes da inicialização) -->
+    <!-- ✅ VLibras container (fora do React, mas visível) -->
     <div vw class="enabled">
-      <div vw-access-button class="active" style="display: none;"></div>
+      <div vw-access-button class="active" style="display: block;"></div>
       <div vw-plugin-wrapper>
         <div class="vw-plugin-top-wrapper"></div>
       </div>
     </div>
 
-    <!-- ✅ Inicialização do VLibras (após o container e script) -->
+    <!-- ✅ Inicialização segura após tudo estar carregado -->
     <script>
-      window.addEventListener("load", function () {
+      window.addEventListener("DOMContentLoaded", function () {
         if (window.VLibras?.Widget) {
           new window.VLibras.Widget("https://vlibras.gov.br/app");
         } else {
