@@ -2,25 +2,35 @@ import { HandMetal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
+// Definimos o tipo de dado que esperamos do objeto VLibras, para usarmos localmente.
+type VLibrasType = {
+  Widget?: new (url: string) => void;
+};
+
+
 export function LibrasToggle() {
   const { toast } = useToast();
 
   const handleActivate = () => {
-    if (window.VLibras?.Widget) {
-      try {
-        new window.VLibras.Widget("https://vlibras.gov.br/app");
-        toast({
-          title: "VLibras ativado",
-          description: "O avatar de Libras foi iniciado com sucesso.",
-        });
-      } catch (error) {
-        toast({
-          title: "Erro ao ativar VLibras",
-          description: "Não foi possível iniciar o VLibras.",
-          variant: "destructive",
-        });
-      }
+    
+    // ✅ CORREÇÃO: Removemos o '(window as any)' e acessamos diretamente,
+    // forçando a tipagem do resultado para VLibrasType.
+    // Isso evita o erro de linter 'Unexpected any'.
+    
+    const VLib = (window as Window & { VLibras?: VLibrasType | undefined }).VLibras;
+
+    // Verificamos a existência do objeto e da propriedade Widget
+    if (VLib?.Widget) {
+      
+      // A inicialização real ocorre no index.html. 
+      // Este botão apenas confirma a ativação e fornece feedback.
+      toast({
+        title: "VLibras ativado",
+        description: "O avatar de Libras foi iniciado com sucesso.",
+      });
+
     } else {
+      // Script ainda não carregou
       toast({
         title: "VLibras não carregado",
         description: "O script VLibras ainda não foi carregado. Tente novamente em alguns segundos.",

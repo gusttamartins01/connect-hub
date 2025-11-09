@@ -1,43 +1,37 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connect Hub</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Hub</title>
 
-    <!-- SEO e redes sociais -->
-    <meta property="og:title" content="Connect Hub" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:title" content="Connect Hub" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- ✅ VLibras Widget Script -->
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  </head>
+        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  </head>
 
-  <body>
-    <!-- ✅ React root -->
-    <div id="root"></div>
+  <body>
+        <div id="root"></div>
 
-    <!-- ✅ VLibras container -->
-    <div vw class="enabled">
-      <div vw-access-button class="active" style="display: block;"></div>
-      <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-      </div>
-    </div>
+            <div vw class="enabled"> 
+      <div vw-access-button class="active" style="display: block;"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
 
-    <!-- ✅ Inicialização segura -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        if (window.VLibras?.Widget) {
-          new window.VLibras.Widget("https://vlibras.gov.br/app");
-        } else {
-          console.warn("VLibras não disponível.");
-        }
-      });
-    </script>
+        <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.VLibras?.Widget) {
+          new window.VLibras.Widget("https://vlibras.gov.br/app");
+        } else {
+          console.warn("VLibras não disponível.");
+        }
+      });
+    </script>
 
-    <!-- ✅ App principal -->
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+        <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
