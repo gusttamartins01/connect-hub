@@ -53,9 +53,11 @@ export default function ChatImproved() {
       timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
     };
 
+    const currentMessages = messages[selectedDisciplina] || [];
+    
     setMessages((prev) => ({
       ...prev,
-      [selectedDisciplina]: [...(prev[selectedDisciplina] || []), userMessage],
+      [selectedDisciplina]: [...currentMessages, userMessage],
     }));
 
     setNewMessage("");
@@ -101,7 +103,7 @@ export default function ChatImproved() {
 
       setMessages((prev) => ({
         ...prev,
-        [selectedDisciplina]: [...(prev[selectedDisciplina] || []), userMessage, assistantMessage],
+        [selectedDisciplina]: [...currentMessages, userMessage, assistantMessage],
       }));
     } catch (error) {
       console.error("Erro:", error);

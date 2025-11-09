@@ -49,6 +49,7 @@ export const Navbar = () => {
       subItems: [
         { name: "Disciplinas", icon: BookOpen, path: "/disciplinas" },
         { name: "Professores", icon: Users, path: "/professores" },
+        { name: "Notas", icon: FileText, path: "/notas" },
       ],
     },
     {
@@ -59,6 +60,7 @@ export const Navbar = () => {
         { name: "Grade Curricular", icon: FileText, path: "/grade-curricular" },
         { name: "Chat IA", icon: MessageSquare, path: "/chat" },
         { name: "Comunidade", icon: Users, path: "/comunidade" },
+        { name: "Requerimentos", icon: FileText, path: "/requerimentos" },
       ],
     },
   ];
@@ -107,8 +109,8 @@ export const Navbar = () => {
                     <BookOpen className="h-4 w-4" />
                     Acadêmico
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[220px] gap-2 p-2">
+                  <NavigationMenuContent className="bg-background border border-border shadow-lg">
+                    <ul className="grid w-[220px] gap-2 p-2 bg-background">
                       <li>
                         <Link to="/disciplinas">
                           <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
@@ -135,6 +137,19 @@ export const Navbar = () => {
                           </NavigationMenuLink>
                         </Link>
                       </li>
+                      <li>
+                        <Link to="/notas">
+                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                            <FileText className="h-4 w-4 text-primary" />
+                            <div>
+                              <div className="text-sm font-medium">Notas</div>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                Consultar notas das AV
+                              </p>
+                            </div>
+                          </NavigationMenuLink>
+                        </Link>
+                      </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -154,8 +169,8 @@ export const Navbar = () => {
                     <FileText className="h-4 w-4" />
                     Recursos
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[220px] gap-2 p-2">
+                  <NavigationMenuContent className="bg-background border border-border shadow-lg">
+                    <ul className="grid w-[220px] gap-2 p-2 bg-background">
                       <li>
                         <Link to="/calendario">
                           <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
@@ -203,6 +218,19 @@ export const Navbar = () => {
                               <div className="text-sm font-medium">Comunidade</div>
                               <p className="text-xs text-muted-foreground mt-1">
                                 Discord dos alunos ADS
+                              </p>
+                            </div>
+                          </NavigationMenuLink>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/requerimentos">
+                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                            <FileText className="h-4 w-4 text-primary" />
+                            <div>
+                              <div className="text-sm font-medium">Requerimentos</div>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                Solicitar documentos
                               </p>
                             </div>
                           </NavigationMenuLink>

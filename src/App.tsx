@@ -17,6 +17,8 @@ import Professores from "./pages/Professores";
 import Chat from "./pages/Chat";
 import GradeCurricular from "./pages/GradeCurricular";
 import Comunidade from "./pages/Comunidade";
+import Notas from "./pages/Notas";
+import Requerimentos from "./pages/Requerimentos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +46,8 @@ const App = () => (
                       <Route path="/chat" element={<Chat />} />
                       <Route path="/grade-curricular" element={<GradeCurricular />} />
                       <Route path="/comunidade" element={<Comunidade />} />
+                      <Route path="/notas" element={<Notas />} />
+                      <Route path="/requerimentos" element={<Requerimentos />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
