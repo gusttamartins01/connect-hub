@@ -10,20 +10,30 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- ✅ VLibras Widget -->
+    <!-- ✅ VLibras Widget Script -->
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   </head>
 
   <body>
     <div id="root"></div>
 
-    <!-- ✅ Inicialização do VLibras -->
+    <!-- ✅ VLibras Container (deve vir antes da inicialização) -->
+    <div vw class="enabled">
+      <div vw-access-button class="active" style="display: none;"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+
+    <!-- ✅ Inicialização do VLibras (após o container e script) -->
     <script>
-      window.onload = function () {
+      window.addEventListener("load", function () {
         if (window.VLibras?.Widget) {
           new window.VLibras.Widget("https://vlibras.gov.br/app");
+        } else {
+          console.warn("VLibras não disponível.");
         }
-      };
+      });
     </script>
 
     <!-- ✅ App principal -->
