@@ -85,3 +85,10 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* ⬅️ NOVO CÓDIGO A SER ADICIONADO ABAIXO ⬅️ */
+
+/* Esconde o botão flutuante padrão que o script VLibras injeta */
+div[vw-access-button] {
+  display: none !important;
+}
