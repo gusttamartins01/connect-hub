@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { ThemeProvider } from "./components/ThemeProvider";
-import { VlidasWidgetLoader } from "./components/VlidasWidgetLoader";
 import { Navbar } from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -48,7 +47,6 @@ const App = () => (
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
-                    <VlidasWidgetLoader /> {/* ✅ Loader dentro do layout protegido */}
                   </>
                 </ProtectedRoute>
               }

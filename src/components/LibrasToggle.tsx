@@ -1,44 +1,29 @@
-import { useEffect, useState } from "react";
 import { HandMetal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 export function LibrasToggle() {
   const { toast } = useToast();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const checkButton = () => {
-      const btn = document.querySelector("div[vw-access-button]");
-      if (btn) {
-        setReady(true);
-      }
-    };
-
-    checkButton();
-
-    const observer = new MutationObserver(() => {
-      checkButton();
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   const handleActivate = () => {
-    try {
-      new window.VLibras.Widget("https://vlibras.gov.br/app");
-      console.log("VLibras ativado diretamente.");
-    } catch (error) {
+    if (window.VLibras?.Widget) {
+      try {
+        new window.VLibras.Widget("https://vlibras.gov.br/app");
+        toast({
+          title: "VLibras ativado",
+          description: "O avatar de Libras foi iniciado com sucesso.",
+        });
+      } catch (error) {
+        toast({
+          title: "Erro ao ativar VLibras",
+          description: "Não foi possível iniciar o VLibras.",
+          variant: "destructive",
+        });
+      }
+    } else {
       toast({
-        title: "Erro ao ativar Libras",
-        description: "Não foi possível iniciar o VLibras. Verifique se o script foi carregado corretamente.",
+        title: "VLibras não carregado",
+        description: "O script VLibras ainda não foi carregado. Tente novamente em alguns segundos.",
         variant: "destructive",
       });
     }
@@ -49,7 +34,6 @@ export function LibrasToggle() {
       variant="outline"
       size="icon"
       onClick={handleActivate}
-      disabled={!ready}
       className="border-border bg-background hover:bg-accent"
       title="Acessibilidade em Libras (VLibras)"
     >
