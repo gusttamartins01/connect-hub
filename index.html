@@ -1,37 +1,40 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connect Hub</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Hub</title>
 
-        <meta property="og:title" content="Connect Hub" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:title" content="Connect Hub" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-        <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  </head>
+    <!-- ✅ Carrega VLibras corretamente como script global -->
+    <script defer src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  </head>
 
-  <body>
-        <div id="root"></div>
+  <body>
+    <div id="root"></div>
 
-            <div vw class="enabled"> 
-      <div vw-access-button class="active" style="display: block;"></div>
-      <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-      </div>
-    </div>
+    <!-- ✅ Estrutura obrigatória para o VLibras -->
+    <div vw class="enabled">
+      <div vw-access-button></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
 
-        <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        if (window.VLibras?.Widget) {
-          new window.VLibras.Widget("https://vlibras.gov.br/app");
-        } else {
-          console.warn("VLibras não disponível.");
-        }
-      });
-    </script>
+    <!-- ✅ Inicialização correta -->
+    <script>
+      window.addEventListener("load", function () {
+        if (window.VLibras?.Widget) {
+          new window.VLibras.Widget("https://vlibras.gov.br/app");
+        } else {
+          console.error("VLibras não carregou corretamente");
+        }
+      });
+    </script>
 
-        <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

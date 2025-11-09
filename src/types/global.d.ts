@@ -1,13 +1,9 @@
-interface VLibrasWidgetInstance {
-  init?: () => void;
+declare global {
+  interface Window {
+    VLibras?: {
+      Widget?: new (url: string) => void;
+    };
+  }
 }
 
-interface VLibrasWidget {
-  new (url: string): VLibrasWidgetInstance;
-}
-
-interface Window {
-  VLibras: {
-    Widget: VLibrasWidget;
-  };
-}
+export {};

@@ -92,3 +92,15 @@ All colors MUST be HSL.
 div[vw-access-button] {
   display: none !important;
 }
+
+/* ✅ Garante que o VLibras apareça acima de tudo */
+[vw],
+[vw] * {
+  z-index: 2147483647 !important;
+  position: fixed !important;
+}
+
+/* ✅ Oculta o botão padrão do VLibras (se quiser reativar, remova isso) */
+div[vw-access-button] {
+  display: none !important;
+}
