@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Connect Hub</title>
 
-    <meta property="og:title" content="Connect Hub" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <!-- ✅ Carrega VLibras corretamente como script global -->
+    <!-- Carrega plugin -->
     <script defer src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   </head>
 
   <body>
     <div id="root"></div>
 
-    <!-- ✅ Estrutura obrigatória para o VLibras -->
+    <!-- Estrutura obrigatória -->
     <div vw class="enabled">
       <div vw-access-button></div>
       <div vw-plugin-wrapper>
@@ -24,13 +20,22 @@
       </div>
     </div>
 
-    <!-- ✅ Inicialização correta -->
+    <!-- Inicialização segura -->
     <script>
-      window.addEventListener("load", function () {
-        if (window.VLibras?.Widget) {
-          new window.VLibras.Widget("https://vlibras.gov.br/app");
-        } else {
-          console.error("VLibras não carregou corretamente");
+      window.addEventListener("load", () => {
+        const init = () => {
+          if (window.VLibras?.Widget) {
+            console.log("✅ VLibras iniciado");
+            new window.VLibras.Widget("https://vlibras.gov.br/app");
+            return true;
+          }
+          return false;
+        };
+
+        if (!init()) {
+          const fallback = setInterval(() => {
+            if (init()) clearInterval(fallback);
+          }, 500);
         }
       });
     </script>
