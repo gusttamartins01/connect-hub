@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =========================
-   🎨 DESIGN SYSTEM
-   ========================= */
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
 @layer base {
   :root {
@@ -27,7 +27,22 @@
     --border: 214 32% 85%;
     --input: 214 32% 88%;
     --ring: 215 85% 60%;
+    --chart-1: 215 85% 60%;
+    --chart-2: 180 70% 50%;
+    --chart-3: 280 65% 60%;
+    --chart-4: 30 80% 55%;
+    --chart-5: 340 75% 55%;
     --radius: 0.5rem;
+    --gradient-primary: linear-gradient(135deg, hsl(215 85% 60%), hsl(200 80% 50%));
+    --shadow-glow: 0 0 30px hsl(215 85% 60% / 0.3);
+    --sidebar-background: 210 20% 94%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 215 85% 60%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 40% 90%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 85%;
+    --sidebar-ring: 215 85% 60%;
   }
 
   .dark {
@@ -39,22 +54,30 @@
     --popover-foreground: 210 20% 95%;
     --primary: 215 85% 60%;
     --primary-foreground: 220 30% 8%;
+    --secondary: 220 25% 18%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 220 20% 16%;
+    --muted-foreground: 210 15% 65%;
+    --accent: 215 85% 55%;
+    --accent-foreground: 220 30% 8%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 210 20% 95%;
     --border: 220 20% 20%;
     --input: 220 20% 20%;
     --ring: 215 85% 60%;
+    --sidebar-background: 220 30% 8%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 215 85% 60%;
+    --sidebar-primary-foreground: 220 30% 8%;
+    --sidebar-accent: 220 25% 18%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 215 85% 60%;
   }
 }
 
 @layer base {
-
-  /* ✅ NÃO aplicar bordas nos elementos do VLibras */
-  *:not([vw])
-    :not([vw-access-button])
-    :not([vw-plugin-wrapper])
-    :not(.vw-plugin)
-    :not(.vw-plugin *)
-    :not(.vw-view)
-    :not(.vw-view *) {
+  * {
     @apply border-border;
   }
 
@@ -63,35 +86,40 @@
   }
 }
 
-/* =========================
-   ✅ VLibras – Correções DEFINITIVAS
-   ========================= */
 
-/* Manter por cima */
-[vw],
-[vw-access-button],
-[vw-plugin-wrapper] {
-  z-index: 999999 !important;
-}
+/* 🚀 GARANTIA DE VISIBILIDADE E LAYOUT PARA O VLIBRAS */
+@layer utilities {
+  /* 1. Container principal */
+  [vw] {
+    z-index: 9999999 !important; 
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
 
-/* Botão do VLibras */
-[vw-access-button] {
-  position: fixed !important;
-  bottom: 16px !important;
-  right: 16px !important;
-}
+  /* 2. Botão de Acesso */
+  [vw-access-button] {
+    z-index: 9999999 !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
 
-/* Posição do avatar */
-[vw-plugin-wrapper] {
-  bottom: 80px !important;
-  right: 20px !important;
-}
-
-/* Tamanho reduzido do avatar */
-.vw-plugin,
-.vw-view,
-.vw-plugin-wrapper,
-.vw-plugin-top-wrapper {
-  max-width: 300px !important;
-  max-height: 380px !important;
+  /* 3. Wrapper do Plugin (Onde o avatar é renderizado) */
+  [vw-plugin-wrapper] {
+    z-index: 9999999 !important; 
+    position: fixed !important;
+    bottom: 80px !important;
+    right: 20px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 250px !important; /* ✅ CRUCIAL: Garante largura para o iframe */
+    height: 350px !important; /* ✅ CRUCIAL: Garante altura para o iframe */
+    background-color: transparent !important;
+    overflow: visible !important;
+    display: block !important;
+  }
 }

@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Connect Hub</title>
 
-    <!-- Carrega plugin -->
-    <script defer src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   </head>
 
   <body>
     <div id="root"></div>
 
-    <!-- Estrutura obrigatória -->
     <div vw class="enabled">
       <div vw-access-button></div>
       <div vw-plugin-wrapper>
@@ -20,21 +18,30 @@
       </div>
     </div>
 
-    <!-- Inicialização segura -->
     <script>
       window.addEventListener("load", () => {
-        const init = () => {
-          if (window.VLibras?.Widget) {
-            console.log("✅ VLibras iniciado");
+        const initVL = () => {
+          if (window.VLibras && window.VLibras.Widget) {
+            // Inicializa o widget
             new window.VLibras.Widget("https://vlibras.gov.br/app");
+            
+            // Tenta forçar a visibilidade do wrapper principal assim que inicializa
+            const vwContainer = document.querySelector('[vw]');
+            if (vwContainer) {
+              vwContainer.style.visibility = 'visible';
+              vwContainer.style.opacity = '1';
+              vwContainer.style.display = 'block';
+            }
+            
             return true;
           }
           return false;
         };
 
-        if (!init()) {
-          const fallback = setInterval(() => {
-            if (init()) clearInterval(fallback);
+        // Tenta inicializar. Se falhar, tenta a cada 500ms.
+        if (!initVL()) {
+          const interval = setInterval(() => {
+            if (initVL()) clearInterval(interval);
           }, 500);
         }
       });
