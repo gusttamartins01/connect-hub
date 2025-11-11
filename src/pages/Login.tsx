@@ -128,7 +128,7 @@ export default function Login() {
         </Card>
 
         <p className="text-center text-sm text-muted-foreground mt-6">
-          <span className="text-primary font-semibold animation: animate-pulse">UniConnect - Desenvolvido por  Gustavo Martins</span>
+           <span className="text-primary font-semibold animation: animate-pulse">UniConnect - Desenvolvido por  Gustavo Martins</span>
         </p>
       </div>
     </div>

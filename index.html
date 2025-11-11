@@ -5,12 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UniConnect</title>
 
+    <!-- VLibras Plugin -->
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   </head>
 
   <body>
-    <div id="root"></div>
+    <!-- Botão de ativar/desativar leitura -->
+    <button id="ativarLeitura" style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: #0b5df5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 99999;">
+      🔊 Ativar Leitura
+    </button>
 
+    <!-- Área principal da aplicação -->
+    <div id="root">
+      <h1>Bem-vindo ao UniConnect</h1>
+      <p>Clique em qualquer texto para ouvir a leitura em voz alta.</p>
+      <button>Exemplo de botão</button>
+    </div>
+
+    <!-- VLibras Widget -->
     <div vw class="enabled">
       <div vw-access-button class="active"></div>
       <div vw-plugin-wrapper>
@@ -26,6 +49,43 @@
       }
     </script>
 
+    <!-- Script de leitura por clique -->
+    <script>
+      function falarTexto(texto) {
+        const fala = new SpeechSynthesisUtterance(texto);
+        fala.lang = "pt-BR";
+        fala.rate = 1;
+        fala.pitch = 1;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(fala);
+      }
+
+      const botao = document.getElementById("ativarLeitura");
+      let leituraAtiva = false;
+
+      botao.addEventListener("click", () => {
+        leituraAtiva = !leituraAtiva;
+        botao.textContent = leituraAtiva ? "🔇 Desativar Leitura" : "🔊 Ativar Leitura";
+        botao.style.background = leituraAtiva ? "#dc3545" : "#0b5df5";
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!leituraAtiva) return;
+
+        const elemento = event.target;
+
+        // Evita que o próprio botão seja lido
+        if (elemento.id === "ativarLeitura") return;
+
+        const texto = elemento.innerText || elemento.alt || elemento.getAttribute("aria-label");
+
+        if (texto) {
+          falarTexto(texto.trim());
+        }
+      });
+    </script>
+
+    <!-- Script principal da aplicação -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
