@@ -20,29 +20,15 @@
 
     <script>
       window.addEventListener("load", () => {
-        const initVL = () => {
-          if (window.VLibras && window.VLibras.Widget) {
-            // Inicializa o widget
-            new window.VLibras.Widget("https://vlibras.gov.br/app");
-            
-            // Tenta forçar a visibilidade do wrapper principal assim que inicializa
-            const vwContainer = document.querySelector('[vw]');
-            if (vwContainer) {
-              vwContainer.style.visibility = 'visible';
-              vwContainer.style.opacity = '1';
-              vwContainer.style.display = 'block';
+        if (window.VLibras && window.VLibras.Widget) {
+          new window.VLibras.Widget("https://vlibras.gov.br/app");
+        } else {
+          // Tenta novamente após 1 segundo se não carregou
+          setTimeout(() => {
+            if (window.VLibras && window.VLibras.Widget) {
+              new window.VLibras.Widget("https://vlibras.gov.br/app");
             }
-            
-            return true;
-          }
-          return false;
-        };
-
-        // Tenta inicializar. Se falhar, tenta a cada 500ms.
-        if (!initVL()) {
-          const interval = setInterval(() => {
-            if (initVL()) clearInterval(interval);
-          }, 500);
+          }, 1000);
         }
       });
     </script>

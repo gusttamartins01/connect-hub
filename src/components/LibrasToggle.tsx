@@ -9,46 +9,24 @@ export function LibrasToggle() {
   const { toast } = useToast();
   const [isVlibrasLoading, setIsVlibrasLoading] = useState(false);
 
-  // Função central para forçar a ativação e visibilidade
+  // Função para ativar o VLibras clicando no botão nativo
   const forceActivateVlibras = (btnElement: Element) => {
     if (isVlibrasLoading) return;
     setIsVlibrasLoading(true);
 
     const btn = btnElement as HTMLElement;
-
-    // 1. Força a visibilidade inicial do botão de acesso
-    btn.style.display = "block";
-    btn.style.visibility = "visible";
-    btn.style.opacity = "1";
-
-    // 2. Simula o clique
+    
+    // Clica no botão nativo do VLibras
     btn.click();
 
-    // 3. Força a visibilidade do WRAPPER do plugin após o clique
+    // Aguarda o plugin carregar
     window.setTimeout(() => {
-      const wrapper = document.querySelector('[vw-plugin-wrapper]') as HTMLElement;
-      
-      if (wrapper) {
-        wrapper.style.display = "block";
-        wrapper.style.visibility = "visible";
-        wrapper.style.opacity = "1";
-        
-        // Removido: deixar o plugin controlar a visibilidade do container
-
-
-        toast({
-          title: "VLibras ativado ✅",
-          description: "O avatar deve aparecer no canto da tela.",
-        });
-      } else {
-         toast({
-          title: "Erro ao mostrar avatar",
-          description: "O wrapper do VLibras não foi encontrado. Verifique o console.",
-          variant: "destructive",
-        });
-      }
       setIsVlibrasLoading(false);
-    }, 750);
+      toast({
+        title: "VLibras ativado ✅",
+        description: "Clique no botão azul no canto da tela para abrir o avatar.",
+      });
+    }, 500);
   };
 
   // Função para lidar com o clique do usuário

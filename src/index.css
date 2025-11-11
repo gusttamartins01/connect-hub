@@ -94,15 +94,19 @@ All colors MUST be HSL.
     z-index: 2147483000 !important;
   }
 
-  /* 2. Botão de Acesso */
+  /* 2. Botão de Acesso - Menor */
   [vw-access-button] {
-    z-index: 9999999 !important;
+    z-index: 2147483000 !important;
     position: fixed !important;
     bottom: 20px !important;
     right: 20px !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  [vw-access-button] img {
+    width: 100% !important;
+    height: 100% !important;
   }
 
   /* 3. Wrapper do Plugin (Onde o avatar é renderizado) */
