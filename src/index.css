@@ -91,10 +91,7 @@ All colors MUST be HSL.
 @layer utilities {
   /* 1. Container principal */
   [vw] {
-    z-index: 9999999 !important; 
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
+    z-index: 2147483000 !important;
   }
 
   /* 2. Botão de Acesso */
@@ -110,16 +107,10 @@ All colors MUST be HSL.
 
   /* 3. Wrapper do Plugin (Onde o avatar é renderizado) */
   [vw-plugin-wrapper] {
-    z-index: 9999999 !important; 
+    z-index: 2147483000 !important;
     position: fixed !important;
     bottom: 80px !important;
     right: 20px !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    width: 250px !important; /* ✅ CRUCIAL: Garante largura para o iframe */
-    height: 350px !important; /* ✅ CRUCIAL: Garante altura para o iframe */
     background-color: transparent !important;
-    overflow: visible !important;
-    display: block !important;
   }
 }

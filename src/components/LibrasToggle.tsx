@@ -33,14 +33,8 @@ export function LibrasToggle() {
         wrapper.style.visibility = "visible";
         wrapper.style.opacity = "1";
         
-        // Garante que o container principal também esteja visível
-        const vwContainer = document.querySelector('[vw]') as HTMLElement;
-        
-        if (vwContainer) {
-          vwContainer.style.visibility = 'visible';
-          vwContainer.style.opacity = '1';
-          vwContainer.style.display = 'block';
-        }
+        // Removido: deixar o plugin controlar a visibilidade do container
+
 
         toast({
           title: "VLibras ativado ✅",
