@@ -72,7 +72,7 @@ export const Navbar = () => {
           {/* LOGO */}
           <Link to="/" className="flex items-center space-x-2 group">
             <GraduationCap className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
-            <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animation: animate-pulse">
               UniConnect
             </span>
           </Link>
