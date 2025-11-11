@@ -113,10 +113,21 @@ All colors MUST be HSL.
   [vw-plugin-wrapper] {
     z-index: 2147483000 !important;
     position: fixed !important;
-    bottom: 80px !important;
-    right: 20px !important;
-    width: 400px !important;
-    height: 500px !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    width: 560px !important;
+    height: 720px !important;
     background-color: transparent !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    display: block !important;
+  }
+
+  /* Garante que o container interno do VLibras não corte o avatar */
+  .vw-plugin-top-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
   }
 }
