@@ -115,6 +115,8 @@ All colors MUST be HSL.
     position: fixed !important;
     bottom: 80px !important;
     right: 20px !important;
+    width: 400px !important;
+    height: 500px !important;
     background-color: transparent !important;
   }
 }
