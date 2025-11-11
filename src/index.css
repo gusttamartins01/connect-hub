@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* ============================================================
+   🎨 Design System - Cores, fontes, sombras, etc (HSL)
+   ============================================================ */
 @layer base {
   :root {
     --background: 210 20% 96%;
@@ -86,48 +85,69 @@ All colors MUST be HSL.
   }
 }
 
+/* ============================================================
+   ✅ Ajustes VLibras - Centralizado na lateral direita
+   ============================================================ */
 
-/* 🚀 GARANTIA DE VISIBILIDADE E LAYOUT PARA O VLIBRAS */
-@layer utilities {
-  /* 1. Container principal */
-  [vw] {
-    z-index: 2147483000 !important;
-  }
+/* 1. Janela principal do plugin VLibras */
+[vw-plugin-wrapper] {
+  z-index: 2147483647 !important;
+  position: fixed !important;
 
-  /* 2. Botão de Acesso - Menor */
-  [vw-access-button] {
-    z-index: 2147483000 !important;
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 20px !important;
-    width: 50px !important;
-    height: 50px !important;
-  }
-  
-  [vw-access-button] img {
-    width: 100% !important;
-    height: 100% !important;
-  }
+  /* Centralização vertical na lateral direita */
+  right: 10px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 
-  /* 3. Wrapper do Plugin (Onde o avatar é renderizado) */
-  [vw-plugin-wrapper] {
-    z-index: 2147483000 !important;
-    position: fixed !important;
-    bottom: 24px !important;
-    right: 24px !important;
-    width: 560px !important;
-    height: 720px !important;
-    background-color: transparent !important;
-    overflow: visible !important;
-    pointer-events: auto !important;
-    display: block !important;
-  }
+  width: 280px !important;
+  height: 420px !important;
+  min-width: 280px !important;
+  min-height: 420px !important;
 
-  /* Garante que o container interno do VLibras não corte o avatar */
-  .vw-plugin-top-wrapper {
-    width: 100% !important;
-    height: 100% !important;
-    overflow: visible !important;
-    pointer-events: auto !important;
-  }
+  background: white !important;
+  border-radius: 18px !important;
+
+  overflow: hidden !important;
+  clip: auto !important;
+  pointer-events: auto !important;
+}
+
+/* 2. Wrapper interno (iframe) */
+.vw-plugin-top-wrapper,
+[vw-plugin-wrapper] > div,
+[vw-plugin-wrapper] iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 280px !important;
+  min-height: 420px !important;
+
+  overflow: hidden !important;
+  clip: auto !important;
+  display: block !important;
+  position: relative !important;
+}
+
+/* 3. Avatar centralizado verticalmente */
+[vw-plugin-wrapper] .vw-avatar,
+.vw-avatar {
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+
+  margin-top: 15px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 0 !important;
+
+  display: block !important;
+}
+
+/* 4. Remove backgrounds escuros */
+[vw],
+.vw-plugin-top-wrapper,
+.vw-text-box,
+.vw-text-box--active {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
