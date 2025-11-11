@@ -12,25 +12,18 @@
     <div id="root"></div>
 
     <div vw class="enabled">
-      <div vw-access-button></div>
+      <div vw-access-button class="active"></div>
       <div vw-plugin-wrapper>
         <div class="vw-plugin-top-wrapper"></div>
       </div>
     </div>
 
     <script>
-      window.addEventListener("load", () => {
-        if (window.VLibras && window.VLibras.Widget) {
-          new window.VLibras.Widget("https://vlibras.gov.br/app");
-        } else {
-          // Tenta novamente após 1 segundo se não carregou
-          setTimeout(() => {
-            if (window.VLibras && window.VLibras.Widget) {
-              new window.VLibras.Widget("https://vlibras.gov.br/app");
-            }
-          }, 1000);
-        }
-      });
+      try {
+        new window.VLibras.Widget("https://vlibras.gov.br/app");
+      } catch (e) {
+        console.error("VLibras init error", e);
+      }
     </script>
 
     <script type="module" src="/src/main.tsx"></script>
