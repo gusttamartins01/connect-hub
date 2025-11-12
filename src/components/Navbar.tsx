@@ -28,6 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "./ThemeToggle";
 import { LibrasToggle } from "./LibrasToggle";
 
@@ -96,149 +97,117 @@ export const Navbar = () => {
                   </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger
-                    className={cn(
-                      location.pathname.includes("/disciplinas") ||
-                        location.pathname.includes("/professores")
-                        ? "bg-primary/10"
-                        : "",
-                      "flex items-center gap-2"
-                    )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        location.pathname.includes("/disciplinas") ||
+                          location.pathname.includes("/professores")
+                          ? "bg-primary/10"
+                          : "",
+                        "flex items-center gap-2"
+                      )}
+                    >
+                      <BookOpen className="h-4 w-4" />
+                      Acadêmico
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side="bottom"
+                    align="start"
+                    sideOffset={8}
+                    className="z-50 w-[260px] bg-background border border-border shadow-lg"
                   >
-                    <BookOpen className="h-4 w-4" />
-                    Acadêmico
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-background border border-border shadow-lg !mt-0">
-                    <ul className="grid w-[220px] gap-2 p-2 bg-background">
-                      <li>
-                        <Link to="/disciplinas">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <BookOpen className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Disciplinas</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Horários e informações
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/professores">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <Users className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Professores</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Contatos e perfis
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/notas">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <FileText className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Notas</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Consultar notas das AV
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                    <div className="grid gap-2 p-2">
+                      <Link to="/disciplinas" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <BookOpen className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Disciplinas</div>
+                          <p className="text-xs text-muted-foreground mt-1">Horários e informações</p>
+                        </div>
+                      </Link>
+                      <Link to="/professores" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <Users className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Professores</div>
+                          <p className="text-xs text-muted-foreground mt-1">Contatos e perfis</p>
+                        </div>
+                      </Link>
+                      <Link to="/notas" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <FileText className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Notas</div>
+                          <p className="text-xs text-muted-foreground mt-1">Consultar notas das AV</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger
-                    className={cn(
-                      location.pathname.includes("/calendario") ||
-                        location.pathname.includes("/grade-curricular") ||
-                        location.pathname.includes("/chat") ||
-                        location.pathname.includes("/comunidade")
-                        ? "bg-primary/10"
-                        : "",
-                      "flex items-center gap-2"
-                    )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        location.pathname.includes("/calendario") ||
+                          location.pathname.includes("/grade-curricular") ||
+                          location.pathname.includes("/chat") ||
+                          location.pathname.includes("/comunidade")
+                          ? "bg-primary/10"
+                          : "",
+                        "flex items-center gap-2"
+                      )}
+                    >
+                      <FileText className="h-4 w-4" />
+                      Recursos
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side="bottom"
+                    align="start"
+                    sideOffset={8}
+                    className="z-50 w-[260px] bg-background border border-border shadow-lg"
                   >
-                    <FileText className="h-4 w-4" />
-                    Recursos
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-background border border-border shadow-lg !mt-0">
-                    <ul className="grid w-[220px] gap-2 p-2 bg-background">
-                      <li>
-                        <Link to="/calendario">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <Calendar className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Calendário</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Calendário acadêmico 2025
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/grade-curricular">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <FileText className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Grade Curricular</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Curso completo
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/chat">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <MessageSquare className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Chat IA</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Tire dúvidas com IA
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/comunidade">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <Users className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Comunidade</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Discord dos alunos ADS
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/requerimentos">
-                          <NavigationMenuLink className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
-                            <FileText className="h-4 w-4 text-primary" />
-                            <div>
-                              <div className="text-sm font-medium">Requerimentos</div>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                Solicitar documentos
-                              </p>
-                            </div>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                    <div className="grid gap-2 p-2">
+                      <Link to="/calendario" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <Calendar className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Calendário</div>
+                          <p className="text-xs text-muted-foreground mt-1">Calendário acadêmico 2025</p>
+                        </div>
+                      </Link>
+                      <Link to="/grade-curricular" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <FileText className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Grade Curricular</div>
+                          <p className="text-xs text-muted-foreground mt-1">Curso completo</p>
+                        </div>
+                      </Link>
+                      <Link to="/chat" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <MessageSquare className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Chat IA</div>
+                          <p className="text-xs text-muted-foreground mt-1">Tire dúvidas com IA</p>
+                        </div>
+                      </Link>
+                      <Link to="/comunidade" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <Users className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Comunidade</div>
+                          <p className="text-xs text-muted-foreground mt-1">Discord dos alunos ADS</p>
+                        </div>
+                      </Link>
+                      <Link to="/requerimentos" className="flex items-center gap-3 p-3 rounded-md hover:bg-accent transition-colors">
+                        <FileText className="h-4 w-4 text-primary" />
+                        <div>
+                          <div className="text-sm font-medium">Requerimentos</div>
+                          <p className="text-xs text-muted-foreground mt-1">Solicitar documentos</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </NavigationMenuList>
             </NavigationMenu>
 
