@@ -109,7 +109,7 @@ export const Navbar = () => {
                     <BookOpen className="h-4 w-4" />
                     Acadêmico
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-background border border-border shadow-lg">
+                  <NavigationMenuContent className="bg-background border border-border shadow-lg !mt-0">
                     <ul className="grid w-[220px] gap-2 p-2 bg-background">
                       <li>
                         <Link to="/disciplinas">
@@ -169,7 +169,7 @@ export const Navbar = () => {
                     <FileText className="h-4 w-4" />
                     Recursos
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-background border border-border shadow-lg">
+                  <NavigationMenuContent className="bg-background border border-border shadow-lg !mt-0">
                     <ul className="grid w-[220px] gap-2 p-2 bg-background">
                       <li>
                         <Link to="/calendario">
