@@ -104,7 +104,7 @@
   min-width: 280px !important;
   min-height: 420px !important;
 
-  background: white !important;
+  background: transparent  !important;
   border-radius: 18px !important;
 
   overflow: hidden !important;
