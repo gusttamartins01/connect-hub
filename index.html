@@ -11,18 +11,23 @@
 
   <body>
     <!-- Botão de ativar/desativar leitura -->
-    <button id="ativarLeitura" style="
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      background: #0b5df5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 99999;">
+    <button
+      id="ativarLeitura"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        background: #0b5df5;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 99999;
+      "
+      aria-pressed="false"
+    >
       🔊 Ativar Leitura
     </button>
 
@@ -51,33 +56,48 @@
 
     <!-- Script de leitura por clique -->
     <script>
+      let leituraAtiva = false;
+
+      // Função que fala o texto
       function falarTexto(texto) {
+        if (!leituraAtiva || !texto) return; // Garante que só fala se estiver ativo
+
         const fala = new SpeechSynthesisUtterance(texto);
         fala.lang = "pt-BR";
         fala.rate = 1;
         fala.pitch = 1;
-        window.speechSynthesis.cancel();
+
+        window.speechSynthesis.cancel(); // Cancela falas anteriores
         window.speechSynthesis.speak(fala);
       }
 
       const botao = document.getElementById("ativarLeitura");
-      let leituraAtiva = false;
 
+      // Alternar entre ativar/desativar leitura
       botao.addEventListener("click", () => {
         leituraAtiva = !leituraAtiva;
+
         botao.textContent = leituraAtiva ? "🔇 Desativar Leitura" : "🔊 Ativar Leitura";
         botao.style.background = leituraAtiva ? "#dc3545" : "#0b5df5";
+        botao.setAttribute("aria-pressed", leituraAtiva);
+
+        // Fala uma mensagem curta apenas quando ativado
+        if (leituraAtiva) {
+          falarTexto("Leitura em voz ativada. Clique em um texto para ouvir.");
+        } else {
+          window.speechSynthesis.cancel();
+        }
       });
 
+      // Lê texto apenas quando a leitura está ativa e o usuário clica em algo
       document.addEventListener("click", (event) => {
+        // Evita ler o próprio botão
+        if (event.target.id === "ativarLeitura") return;
         if (!leituraAtiva) return;
 
         const elemento = event.target;
-
-        // Evita que o próprio botão seja lido
-        if (elemento.id === "ativarLeitura") return;
-
-        const texto = elemento.innerText || elemento.alt || elemento.getAttribute("aria-label");
+        const texto =
+          elemento.innerText || elemento.alt || elemento.getAttribute("aria-label");
 
         if (texto) {
           falarTexto(texto.trim());
