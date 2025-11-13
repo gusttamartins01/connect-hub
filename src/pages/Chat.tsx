@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+// IMPORTANTE: Adicione AvatarImage aqui!
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { disciplinas } from "@/data/mockData";
@@ -15,6 +16,8 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: string;
+  // ✨ NOVO: Campo opcional para o URL do avatar
+  avatarUrl?: string; 
 }
 
 const disciplineContext: Record<string, string> = {
@@ -35,6 +38,9 @@ const disciplineContext: Record<string, string> = {
   acessibilidade, prototipação, testes de usabilidade, design responsivo, e heurísticas de Nielsen.`,
 };
 
+// URL estático de exemplo para o avatar do usuário
+const USER_AVATAR_URL = "src/assets/image.png"; 
+
 export default function ChatImproved() {
   const [selectedDisciplina, setSelectedDisciplina] = useState(disciplinas[0].id);
   const [newMessage, setNewMessage] = useState("");
@@ -51,6 +57,8 @@ export default function ChatImproved() {
       role: "user",
       content: newMessage,
       timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+      // ✨ NOVO: Adiciona o URL do avatar
+      avatarUrl: USER_AVATAR_URL,
     };
 
     const currentMessages = messages[selectedDisciplina] || [];
@@ -82,7 +90,7 @@ export default function ChatImproved() {
             })),
             {
               role: "user",
-              content: newMessage,
+              content: userMessage.content, // Usa a content do userMessage criado acima
             },
           ],
         }),
@@ -99,6 +107,7 @@ export default function ChatImproved() {
         role: "assistant",
         content: data.response,
         timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+        // O assistente não precisa de um avatarUrl neste contexto, mas pode ter um se você quiser personalizar.
       };
 
       setMessages((prev) => ({
@@ -215,6 +224,12 @@ export default function ChatImproved() {
                               }`}
                             >
                               <Avatar className="h-8 w-8 border-2 border-border">
+                                {
+                                  // ✨ NOVO: Renderiza a imagem do avatar se for a mensagem do usuário e houver URL
+                                  message.role === "user" && message.avatarUrl ? (
+                                    <AvatarImage src={message.avatarUrl} alt="User Avatar" />
+                                  ) : null
+                                }
                                 <AvatarFallback
                                   className={
                                     message.role === "assistant"
@@ -234,25 +249,25 @@ export default function ChatImproved() {
                                   message.role === "user" ? "items-end" : ""
                                 }`}
                               >
-                                 <div
-                                   className={`rounded-lg p-4 ${
-                                     message.role === "user"
-                                       ? "bg-primary text-primary-foreground"
-                                       : "bg-muted border border-border"
-                                   }`}
-                                 >
-                                   <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                                     {message.content
-                                       .replace(/\*\*/g, '')
-                                       .replace(/\*/g, '')
-                                       .replace(/##/g, '')
-                                       .replace(/#/g, '')
-                                       .trim()}
-                                   </p>
-                                   <p className="text-xs opacity-70 mt-2">
-                                     {message.timestamp}
-                                   </p>
-                                 </div>
+                                   <div
+                                       className={`rounded-lg p-4 ${
+                                          message.role === "user"
+                                             ? "bg-primary text-primary-foreground"
+                                             : "bg-muted border border-border"
+                                        }`}
+                                    >
+                                       <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                                          {message.content
+                                             .replace(/\*\*/g, '')
+                                             .replace(/\*/g, '')
+                                             .replace(/##/g, '')
+                                             .replace(/#/g, '')
+                                             .trim()}
+                                       </p>
+                                       <p className="text-xs opacity-70 mt-2">
+                                          {message.timestamp}
+                                       </p>
+                                    </div>
                               </div>
                             </div>
                           ))
@@ -301,7 +316,7 @@ export default function ChatImproved() {
                       </Button>
                     </div>
                     <p className="text-xs text-muted-foreground text-center">
-                      Pressione Enter para enviar, Shift+Enter para nova linha
+                      Pressione **Enter** para enviar, **Shift+Enter** para nova linha
                     </p>
                   </div>
                 </TabsContent>
