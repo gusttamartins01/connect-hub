@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-// IMPORTANTE: Adicione AvatarImage aqui!
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,6 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: string;
-  // ✨ NOVO: Campo opcional para o URL do avatar
   avatarUrl?: string; 
 }
 
@@ -38,7 +37,6 @@ const disciplineContext: Record<string, string> = {
   acessibilidade, prototipação, testes de usabilidade, design responsivo, e heurísticas de Nielsen.`,
 };
 
-// URL estático de exemplo para o avatar do usuário
 const USER_AVATAR_URL = "src/assets/image.png"; 
 
 export default function ChatImproved() {
@@ -57,7 +55,6 @@ export default function ChatImproved() {
       role: "user",
       content: newMessage,
       timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-      // ✨ NOVO: Adiciona o URL do avatar
       avatarUrl: USER_AVATAR_URL,
     };
 
