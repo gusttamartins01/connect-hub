@@ -1,7 +1,7 @@
 import { icons } from "lucide-react";
 import profRicardo from "@/assets/prof_ricardo_amorim.jpg";
 import profReivel from "@/assets/prof_reivel.jpg";
-import profMaximos from "@/assets/prof_juliao_maximos.jpg";
+import profMaximos from "@/assets/prof_eduardo_maximo.png";
 
 export interface Professor {
   id: string;
@@ -58,7 +58,7 @@ export const professores: Professor[] = [
   },
   {
     id: "4",
-    nome: "Prof. Julião Eduardo Maximos",
+    nome: "Prof. Eduardo Julião Maximo",
     email: "eduardo.maximos@universidade.edu",
     foto: profMaximos,
   },

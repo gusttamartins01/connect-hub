@@ -21,6 +21,8 @@ import Notas from "./pages/Notas";
 import Requerimentos from "./pages/Requerimentos";
 import NotFound from "./pages/NotFound";
 
+import VoiceAssistant from "@/components/VoiceAssistant"; // 🎤 Importa o assistente
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -51,6 +53,7 @@ const App = () => (
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />
+                    <VoiceAssistant /> {/* 🎤 Assistente flutuante ativo em todas as rotas */}
                   </>
                 </ProtectedRoute>
               }
