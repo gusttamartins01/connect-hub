@@ -1,4 +1,7 @@
 import { icons } from "lucide-react";
+import profRicardo from "@/assets/prof_ricardo_amorim.jpg";
+import profReivel from "@/assets/prof_reivel.jpg";
+import profMaximos from "@/assets/prof_juliao_maximos.jpg";
 
 export interface Professor {
   id: string;
@@ -39,25 +42,25 @@ export const professores: Professor[] = [
     id: "1",
     nome: "Prof. Dr. Ricardo Amorim",
     email: "ricardo.amorim@universidade.edu",
-    foto: "#",
+    foto: profRicardo,
   },
   {
     id: "2",
     nome: "Prof. Reivel Vieira",
     email: "reivel.vieira@universidade.edu",
-    foto: "#",
+    foto: profReivel,
   },
   {
     id: "3",
     nome: "Prof. Reivel Vieira",
     email: "reivel.vieira@universidade.edu",
-    foto: "#",
+    foto: profReivel,
   },
   {
     id: "4",
     nome: "Prof. Julião Eduardo Maximos",
     email: "eduardo.maximos@universidade.edu",
-    foto:"#",
+    foto: profMaximos,
   },
 ];
 
