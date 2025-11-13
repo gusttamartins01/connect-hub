@@ -37,7 +37,7 @@ const disciplineContext: Record<string, string> = {
   acessibilidade, prototipação, testes de usabilidade, design responsivo, e heurísticas de Nielsen.`,
 };
 
-const USER_AVATAR_URL = "src/assets/image.png"; 
+const USER_AVATAR_URL = "/src/assets/image.png"; 
 
 export default function ChatImproved() {
   const [selectedDisciplina, setSelectedDisciplina] = useState(disciplinas[0].id);
