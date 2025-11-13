@@ -4,40 +4,43 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { disciplinas } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
+
+// ✅ Importa a imagem localmente (funciona em produção)
+import userAvatar from "@/assets/user.png"; 
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: string;
-  avatarUrl?: string; 
+  avatarUrl?: string;
 }
 
 const disciplineContext: Record<string, string> = {
   "1": `Você é o Prof. Dr. Ricardo Amorim, especialista em Fundamentos de Análise e Projeto de Sistemas. 
   Responda dúvidas sobre: modelagem UML, diagramas de classes, casos de uso, análise de requisitos, 
   metodologias ágeis, padrões de projeto, e boas práticas de desenvolvimento de software.`,
-  
+
   "2": `Você é a Profa. Reivel Vieira, especialista em Redes de Computadores.
   Responda dúvidas sobre: protocolos TCP/IP, arquitetura de redes, topologias, segurança de rede,
   configuração de switches e roteadores, modelo OSI, endereçamento IP, e redes sem fio.`,
-  
+
   "3": `Você é o Prof. Reivel Vieira, especialista em Sistemas Operacionais.
   Responda dúvidas sobre: gerenciamento de processos, memória, sistemas de arquivos, escalonamento,
   concorrência, sincronização, deadlock, virtualização, Linux, Windows e conceitos de kernel.`,
-  
+
   "4": `Você é o Prof. Julião Eduardo Maximos, especialista em Interface Homem Máquina.
   Responda dúvidas sobre: design de interfaces, usabilidade, experiência do usuário (UX/UI),
   acessibilidade, prototipação, testes de usabilidade, design responsivo, e heurísticas de Nielsen.`,
 };
 
-const USER_AVATAR_URL = "src/assets/user.png"; 
+// ✅ Agora o caminho funciona no deploy
+const USER_AVATAR_URL = userAvatar; 
 
 export default function ChatImproved() {
   const [selectedDisciplina, setSelectedDisciplina] = useState(disciplinas[0].id);
@@ -59,7 +62,7 @@ export default function ChatImproved() {
     };
 
     const currentMessages = messages[selectedDisciplina] || [];
-    
+
     setMessages((prev) => ({
       ...prev,
       [selectedDisciplina]: [...currentMessages, userMessage],
@@ -87,24 +90,21 @@ export default function ChatImproved() {
             })),
             {
               role: "user",
-              content: userMessage.content, // Usa a content do userMessage criado acima
+              content: userMessage.content,
             },
           ],
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao conectar com a IA");
-      }
+      if (!response.ok) throw new Error("Erro ao conectar com a IA");
 
       const data = await response.json();
-      
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: data.response,
         timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
-        // O assistente não precisa de um avatarUrl neste contexto, mas pode ter um se você quiser personalizar.
       };
 
       setMessages((prev) => ({
@@ -158,10 +158,9 @@ export default function ChatImproved() {
               <Bot className="h-5 w-5 text-primary" />
               Assistente por Disciplina
             </CardTitle>
-            <CardDescription>
-              Selecione uma disciplina e converse com o professor virtual
-            </CardDescription>
+            <CardDescription>Selecione uma disciplina e converse com o professor virtual</CardDescription>
           </CardHeader>
+
           <CardContent>
             <Tabs value={selectedDisciplina} onValueChange={setSelectedDisciplina}>
               <TabsList className="w-full flex-wrap h-auto gap-2 bg-muted/50">
@@ -194,39 +193,29 @@ export default function ChatImproved() {
                       </div>
                     </div>
 
-                    <ScrollArea 
-                      ref={scrollAreaRef}
-                      className="h-[450px] w-full rounded-lg border border-border bg-card/50 p-4"
-                    >
+                    <ScrollArea ref={scrollAreaRef} className="h-[450px] w-full rounded-lg border border-border bg-card/50 p-4">
                       <div className="space-y-4">
                         {currentMessages.length === 0 ? (
                           <div className="flex flex-col items-center justify-center h-full text-center py-12">
                             <div className="p-4 rounded-full bg-primary/10 mb-4">
                               <Bot className="h-12 w-12 text-primary" />
                             </div>
-                            <h3 className="text-lg font-semibold mb-2">
-                              Olá! Sou seu professor virtual
-                            </h3>
+                            <h3 className="text-lg font-semibold mb-2">Olá! Sou seu professor virtual</h3>
                             <p className="text-sm text-muted-foreground max-w-md">
-                              Estou aqui para ajudar com suas dúvidas sobre {disc.nome}. 
-                              Pergunte qualquer coisa sobre a disciplina!
+                              Estou aqui para ajudar com suas dúvidas sobre {disc.nome}. Pergunte qualquer coisa sobre a
+                              disciplina!
                             </p>
                           </div>
                         ) : (
                           currentMessages.map((message) => (
                             <div
                               key={message.id}
-                              className={`flex gap-3 ${
-                                message.role === "user" ? "flex-row-reverse" : ""
-                              }`}
+                              className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
                             >
                               <Avatar className="h-8 w-8 border-2 border-border">
-                                {
-                                  // ✨ NOVO: Renderiza a imagem do avatar se for a mensagem do usuário e houver URL
-                                  message.role === "user" && message.avatarUrl ? (
-                                    <AvatarImage src={message.avatarUrl} alt="User Avatar" />
-                                  ) : null
-                                }
+                                {message.role === "user" && message.avatarUrl ? (
+                                  <AvatarImage src={message.avatarUrl} alt="User Avatar" />
+                                ) : null}
                                 <AvatarFallback
                                   className={
                                     message.role === "assistant"
@@ -241,34 +230,30 @@ export default function ChatImproved() {
                                   )}
                                 </AvatarFallback>
                               </Avatar>
-                              <div
-                                className={`flex-1 max-w-[80%] ${
-                                  message.role === "user" ? "items-end" : ""
-                                }`}
-                              >
-                                   <div
-                                       className={`rounded-lg p-4 ${
-                                          message.role === "user"
-                                             ? "bg-primary text-primary-foreground"
-                                             : "bg-muted border border-border"
-                                        }`}
-                                    >
-                                       <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                                          {message.content
-                                             .replace(/\*\*/g, '')
-                                             .replace(/\*/g, '')
-                                             .replace(/##/g, '')
-                                             .replace(/#/g, '')
-                                             .trim()}
-                                       </p>
-                                       <p className="text-xs opacity-70 mt-2">
-                                          {message.timestamp}
-                                       </p>
-                                    </div>
+
+                              <div className={`flex-1 max-w-[80%] ${message.role === "user" ? "items-end" : ""}`}>
+                                <div
+                                  className={`rounded-lg p-4 ${
+                                    message.role === "user"
+                                      ? "bg-primary text-primary-foreground"
+                                      : "bg-muted border border-border"
+                                  }`}
+                                >
+                                  <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                                    {message.content
+                                      .replace(/\*\*/g, "")
+                                      .replace(/\*/g, "")
+                                      .replace(/##/g, "")
+                                      .replace(/#/g, "")
+                                      .trim()}
+                                  </p>
+                                  <p className="text-xs opacity-70 mt-2">{message.timestamp}</p>
+                                </div>
                               </div>
                             </div>
                           ))
                         )}
+
                         {isLoading && (
                           <div className="flex gap-3">
                             <Avatar className="h-8 w-8 border-2 border-border">
@@ -304,16 +289,13 @@ export default function ChatImproved() {
                         className="min-h-[60px] resize-none"
                         disabled={isLoading}
                       />
-                      <Button
-                        onClick={handleSendMessage}
-                        disabled={!newMessage.trim() || isLoading}
-                        className="h-[60px] px-6"
-                      >
+                      <Button onClick={handleSendMessage} disabled={!newMessage.trim() || isLoading} className="h-[60px] px-6">
                         <Send className="h-5 w-5" />
                       </Button>
                     </div>
+
                     <p className="text-xs text-muted-foreground text-center">
-                      Pressione **Enter** para enviar, **Shift+Enter** para nova linha
+                      Pressione <strong>Enter</strong> para enviar, <strong>Shift+Enter</strong> para nova linha
                     </p>
                   </div>
                 </TabsContent>
