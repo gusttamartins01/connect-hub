@@ -86,7 +86,7 @@ export const disciplinas: Disciplina[] = [
     nome: "Sistemas Operacionais",
     codigo: "U0548",
     professor: professores[2],
-    horario: "Quinta, 19hh-23h",
+    horario: "Quinta, 19h-23h",
     sala: "Lab 02, Bloco B",
   },
   {
@@ -107,7 +107,7 @@ export const atividades: Atividade[] = [
     titulo: "Lista de Exercícios 01",
     descricao: "Exercícios sobre Diagramas de Classes",
     dataEntrega: "2025-11-05",
-    status: "pendente",
+    status: "atrasada",
   },
   {
     id: "2",
@@ -143,16 +143,16 @@ export const atividades: Atividade[] = [
     titulo: "Comandos Básicos de Sistemas Operacionais",
     descricao: "Compreender e aplicar os principais comandos de um sistema operacional, identificando diferenças entre Linux e Windows",
     dataEntrega: "2025-11-10",
-    status: "pendente",
+    status: "atrasada",
   },
   {
     id: "6",
     disciplinaId: "4",
-    tipo: "atividade",
-    titulo: "Análise de Interface e Usabilidade",
+    tipo: "aps",
+    titulo: "APS de Análise de Interface e Usabilidade",
     descricao: "Compreender os princípios de Interação Humano-Computador e aplicar conceitos de usabilidade, design centrado no usuário e avaliação de interface.",
-    dataEntrega: "2025-11-08",
-    status: "pendente",
+    dataEntrega: "2025-11-14",
+    status: "entregue",
   },
   
 ];

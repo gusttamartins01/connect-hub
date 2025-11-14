@@ -78,7 +78,7 @@ export default function VoiceAssistant() {
           : "linear-gradient(45deg, #64748b, #475569)",
         color: "white",
         borderRadius: "50%",
-        width: "70px",
+        width: "70px", 
         height: "70px",
         display: "flex",
         alignItems: "center",
