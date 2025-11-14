@@ -1,4 +1,4 @@
-import { Clock, BookOpen, AlertCircle, MessageSquare } from "lucide-react";
+import { Clock, BookOpen, AlertCircle, MessageSquare, Popsicle, CircleArrowDownIcon, CircleArrowLeft, PodcastIcon, CornerLeftUpIcon, CircleCheckBig, CheckCircle  } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ export default function Home() {
   const handleWhatsAppNotification = () => {
     const atrasadas = atividades.filter((a) => a.status === "atrasada");
     const pendentes = atividades.filter((a) => a.status === "pendente");
+    const entregue = atividades.filter((a) => a.status === "entregue");
     
     let message = "📚 *Resumo Acadêmico*\n\n";
     
@@ -52,6 +53,14 @@ export default function Home() {
     if (pendentes.length > 0) {
       message += `📝 *Atividades Pendentes: ${pendentes.length}*\n`;
       pendentes.forEach((a) => {
+        const disc = disciplinas.find((d) => d.id === a.disciplinaId);
+        message += `- ${a.titulo} (${disc?.nome}) - Entrega: ${new Date(a.dataEntrega).toLocaleDateString("pt-BR")}\n`;
+      });
+    }
+
+     if (entregue.length > 0) {
+      message += `📝 *Atividades Entregue: ${entregue.length}*\n`;
+      entregue.forEach((a) => {
         const disc = disciplinas.find((d) => d.id === a.disciplinaId);
         message += `- ${a.titulo} (${disc?.nome}) - Entrega: ${new Date(a.dataEntrega).toLocaleDateString("pt-BR")}\n`;
       });
@@ -82,21 +91,11 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-3 mb-8">
           <Card className="border-border bg-card hover:shadow-lg transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Disciplinas Ativas</CardTitle>
-              <BookOpen className="h-4 w-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{disciplinas.length}</div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card hover:shadow-lg transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Atividades Pendentes</CardTitle>
               <Clock className="h-4 w-4 text-yellow-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold text-yellow-500">
                 {atividades.filter((a) => a.status === "pendente").length}
               </div>
             </CardContent>
@@ -110,6 +109,18 @@ export default function Home() {
             <CardContent>
               <div className="text-2xl font-bold text-red-500">
                 {atividades.filter((a) => a.status === "atrasada").length}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border bg-card hover:shadow-lg transition-shadow">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Atividades Entregues</CardTitle>
+              <CircleCheckBig className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-500">
+                {atividades.filter((a) => a.status === "entregue").length}
               </div>
             </CardContent>
           </Card>
