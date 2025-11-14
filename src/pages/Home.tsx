@@ -56,10 +56,11 @@ export default function Home() {
         const disc = disciplinas.find((d) => d.id === a.disciplinaId);
         message += `- ${a.titulo} (${disc?.nome}) - Entrega: ${new Date(a.dataEntrega).toLocaleDateString("pt-BR")}\n`;
       });
+       message += "\n";
     }
 
      if (entregue.length > 0) {
-      message += `📝 *Atividades Entregue: ${entregue.length}*\n`;
+      message += `📝 *Atividades Entregues: ${entregue.length}*\n`;
       entregue.forEach((a) => {
         const disc = disciplinas.find((d) => d.id === a.disciplinaId);
         message += `- ${a.titulo} (${disc?.nome}) - Entrega: ${new Date(a.dataEntrega).toLocaleDateString("pt-BR")}\n`;
