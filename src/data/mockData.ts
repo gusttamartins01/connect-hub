@@ -86,7 +86,7 @@ export const disciplinas: Disciplina[] = [
     nome: "Sistemas Operacionais",
     codigo: "U0548",
     professor: professores[2],
-    horario: "Quinta, 19h-23h",
+    horario: "Quinta, 19h-21h",
     sala: "Lab 02, Bloco B",
   },
   {
